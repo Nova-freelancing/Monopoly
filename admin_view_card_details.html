@@ -1,0 +1,185 @@
+{% include 'admin_header.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% include 'admin_index_navbar.html' %}
+
+<style>
+    .card_design {
+        background-color: #e3dfdfe5;
+        margin: 20px;
+
+    }
+    .main_card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        height: 550px; /* Fixed height for the card */
+        overflow-y: auto; /* Add vertical scrollbar if content exceeds height */
+            background-color: #ddebdf;
+        border-radius: 20px;
+    }
+    .main_card > .card {
+        flex: 1 1 calc(33.333% - 20px);
+        box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+        .main_card {
+            flex-direction: column;
+        }
+        .main_card > .card {
+            flex: 1 1 100%;
+        }
+    }
+    .star-rating {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        color: #ffd700; /* Gold color */
+        margin-bottom: 10px;
+    }
+    .star-rating i {
+        cursor: pointer;
+    }
+    .star-rating .checked {
+        color: #ffd700;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body" style="background-color:#a1d0e;">
+                    <h4 class="card-title">User</h4>
+                    <style>
+    /* The alert message box */
+    .alert {
+        padding: 20px;
+        background-color: green; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+                    <center>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <center>
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </center>
+    {% endif %}
+{% endwith %}
+</center>
+
+                    <p class="card-description">
+                         User Details
+                    </p>
+                    <form method="POST">
+                    {% for n in userlist %}
+                        <div class="form-group">
+                            <label for="category">Full Name</label>
+                            <input type="text" class="form-control" name="fullname" id="category" placeholder="Enter the Category" value="{{n.name}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Email</label>
+                            <input type="email" class="form-control" name="email" id="description" placeholder="Enter the Description" value="{{n.email}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Mobile</label>
+                            <input type="text" class="form-control" name="mobile" id="price" placeholder="Enter the Price" value="{{n.mobile}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Your State</label>
+                            <input type="text" class="form-control" name="mobile" id="price" placeholder="Enter the Price" value="{{n.state}}" readonly>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Your District</label>
+                            <input type="text" class="form-control" name="mobile" id="price" placeholder="Enter the Price" value="{{n.district}}" readonly>
+
+                        </div>
+                    {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">View All Cards</h4>
+                    <p class="card-description">
+                        <code>Card List</code>
+                    </p>
+                    <div class="main_card">
+                        {% for n in cardlist %}
+                            <div class="card card_design">
+                            <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                                <img src="{{ url_for('static', filename='upload_img/' + n.card_image) }}" class="img-fluid" style="width:100%"/>
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{n.card_name}}</h5>
+                                <div class="star-rating">
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="card-text">{{n.description}}</p>
+                                <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Book</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="card card_design">
+                            <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                                <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp" class="img-fluid"/>
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <div class="star-rating">
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star checked"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'admin_index_footer.html' %}

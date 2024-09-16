@@ -1,0 +1,131 @@
+{% include 'admin_header.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% include 'admin_index_navbar.html' %}
+
+<div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Category</h4>
+                    <style>
+    /* The alert message box */
+    .alert {
+        padding: 20px;
+        background-color: green; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+                    <center>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <center>
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </center>
+    {% endif %}
+{% endwith %}
+</center>
+
+            <p class="card-description">
+                Add A Category
+            </p>
+            <form method="POST" action="/admin_add_category" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" name="cat" id="category" placeholder="Enter the Category" required >
+                </div>
+                 <div class="form-group">
+                            <label for="image">Category Image</label>
+                            <input type="file" class="form-control" name="image" id="image" placeholder="Enter the Image URL" required>
+                 </div>
+                <input type="submit" class="btn btn-success" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-6 grid-margin stretch-card">
+
+              <div class="card">
+
+                <div class="card-body">
+                  <h4 class="card-title">View All Category</h4>
+                  <p class="card-description">
+                     <code>Category List</code>
+                  </p>
+
+                  <div class="table-responsive">
+
+                  <div style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Category Name
+                          </th>
+                          <th>
+                            Delete
+                          </th>
+
+
+                        </tr>
+                      </thead>
+                      {% for n in clist %}
+                      <tbody>
+                        <tr>
+
+                          <td>
+                            {{ n.category }}
+                          </td>
+
+                          <td>
+                                <form action="{{ url_for('delete_category', id=n.id) }}" method="post">
+
+                                    <button type="submit" class="btn btn-danger btn-icon-text">
+                                        Delete <i class="fas fa-trash btn-icon-append"></i>
+                                    </button>
+                                </form>
+                          </td>
+
+
+
+                        </tr>
+
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+
+                  </div>
+                </div>
+              </div>
+</div>
+
+
+
+
+{% include 'admin_index_footer.html' %}

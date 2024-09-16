@@ -1,0 +1,87 @@
+{% include 'admin_header.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% include 'admin_index_navbar.html' %}
+
+<div class="col-lg-11 grid-margin stretch-card">
+
+              <div class="card">
+
+                <div class="card-body">
+                  <h4 class="card-title">View All New Card</h4>
+                  <p class="card-description">
+                     <code>Card List</code>
+                  </p>
+
+
+                  <div class="table-responsive" >
+
+                    <table class="table table-striped" style="height: 450px; overflow-y: auto;">
+                      <thead>
+                        <tr>
+                          <th>
+                            Card Image
+                          </th>
+                          <th>
+                            Card name
+                          </th>
+
+                          <th>
+                            District
+                          </th>
+<!--                          <th>-->
+<!--                            Owner Name-->
+<!--                          </th>-->
+                          <th>
+                            Owner Profile
+                          </th>
+                          <th>
+                              Status
+                          </th>
+                          <th>Action</th>
+
+                        </tr>
+                      </thead>
+                      {% for n in cardlist %}
+                      <tbody>
+                        <tr>
+                          <td class="py-1">
+                            <img src="{{ url_for('static', filename='upload_img/' + n.card_image) }}" alt="card image">
+                          </td>
+                          <td>
+                            {{ n.card_name }}
+                          </td>
+
+
+                          <td>
+                            {{ n.district }}
+                          </td>
+<!--                          <td>-->
+<!--                            {{ n.user_id }}-->
+<!--                          </td>-->
+                          <td>
+                              <a href="{{ url_for('admin_view_card_details', id=n.id) }}" class="btn btn-dark btn-icon-text">View <i class="ti-file btn-icon-append"></i></a>
+                          </td>
+
+                          <td>{{n.status}}</td>
+                          <td>
+                              {% if n.status == 'Active' %}
+                                  <a href="/admin/request1/Inactive/{{n.id}}" class="btn btn-danger btn-icon-text"> Deactive <i class="ti-file btn-icon-append"></i></a>
+                              {% else %}
+                                  <a href="/admin/request1/active/{{n.id}}" class="btn btn-success btn-icon-text"> Active <i class="ti-file btn-icon-append"></i></a>
+                              {% endif %}
+                          </td>
+
+                        </tr>
+
+                      </tbody>
+                      {% endfor %}
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+</div>
+
+
+{% include 'admin_index_footer.html' %}

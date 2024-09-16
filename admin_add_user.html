@@ -1,0 +1,207 @@
+{% include 'admin_header.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% include 'admin_index_navbar.html' %}
+
+<style>
+    .card_design {
+        background-color: #e3dfdfe5;
+        margin: 20px;
+
+    }
+    .main_card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        height: 500px; /* Fixed height for the card */
+        overflow-y: auto; /* Add vertical scrollbar if content exceeds height */
+            background-color: #ddebdf;
+        border-radius: 20px;
+    }
+    .main_card > .card {
+        flex: 1 1 calc(33.333% - 20px);
+        box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+        .main_card {
+            flex-direction: column;
+        }
+        .main_card > .card {
+            flex: 1 1 100%;
+        }
+    }
+    .star-rating {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        color: #ffd700; /* Gold color */
+        margin-bottom: 10px;
+    }
+    .star-rating i {
+        cursor: pointer;
+    }
+    .star-rating .checked {
+        color: #ffd700;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">User</h4>
+                    <style>
+    /* The alert message box */
+    .alert {
+        padding: 20px;
+        background-color: green; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+                    <center>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <center>
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </center>
+    {% endif %}
+{% endwith %}
+</center>
+
+                    <p class="card-description">
+                        Add A User
+                    </p>
+                    <form method="POST">
+
+                        <div class="form-group">
+                            <label for="category">Full Name</label>
+                            <input type="text" class="form-control" name="fullname" id="category" placeholder="Enter the Category" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Email</label>
+                            <input type="email" class="form-control" name="email" id="description" placeholder="Enter the Description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Password</label>
+                            <input type="password" class="form-control" name="password" id="image" placeholder="Enter the Image URL" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Mobile</label>
+                            <input type="text" class="form-control" name="mobile" id="price" placeholder="Enter the Price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Your State</label>
+                            <select type="text" class="form-control" name="state" id="card_category" placeholder="Enter the Category" required>
+                                <option>Maharashtra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Your District</label>
+                            <select type="text" class="form-control" name="district" id="card_category" placeholder="Enter the Category" required>
+                                {% for n in alist %}
+                                    <option value="{{n.district_name}}">{{n.district_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">View All User</h4>
+                    <p class="card-description">
+                        <code>User List</code>
+                    </p>
+                    <div class="main_card">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+
+                                  <th>
+                                    Full name
+                                  </th>
+
+                                  <th>
+                                    Email
+                                  </th>
+                                  <th>
+                                    Mobile
+                                  </th>
+                                  <th>
+                                      Status
+                                  </th>
+                                  <th>Action</th>
+
+                                </tr>
+                              </thead>
+                              {% for n in ulist %}
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    {{ n.name }}
+                                  </td>
+
+                                  <td>
+                                    {{ n.email }}
+                                  </td>
+                                  <td>
+                                    {{ n.mobile }}
+                                  </td>
+
+                                  <td>{{n.status}}</td>
+                                  <td>
+                                      {% if n.status == 'Active' %}
+                                          <a href="/admin/request/Inactive/{{n.id}}" class="btn btn-danger btn-icon-text"> Deactive <i class="ti-file btn-icon-append"></i></a>
+                                      {% else %}
+                                          <a href="/admin/request/active/{{n.id}}" class="btn btn-success btn-icon-text"> Active <i class="ti-file btn-icon-append"></i></a>
+                                      {% endif %}
+                                  </td>
+
+                                </tr>
+
+                              </tbody>
+                              {% endfor %}
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'admin_index_footer.html' %}
